@@ -1,0 +1,3 @@
+#!/bin/sh
+
+thrift -out ../ --gen php:server $1

@@ -1,0 +1,19 @@
+{
+    "require": {
+        "cat-sys/cat-micro":"dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\":"app/"
+        },
+        "classmap": [
+            "app/processor"
+        ]
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.org"
+        }
+    }
+}
