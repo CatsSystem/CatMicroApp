@@ -1,4 +1,12 @@
 {
+    "name": "cat-sys/cat-micro-app",
+    "description": "Cat Micro Service Core",
+    "authors": [
+        {
+            "name": "lidanyang",
+            "email": "lancelot2014@foxmail.com"
+        }
+    ],
     "require": {
         "cat-sys/cat-micro":"dev-master"
     },
