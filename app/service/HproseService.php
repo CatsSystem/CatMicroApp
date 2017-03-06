@@ -21,6 +21,16 @@ use base\model\MySQLStatement;
 
 class HproseService implements HproseServiceIf
 {
+
+    private $mysql_pool;
+    private $redis_pool;
+
+    public function __construct()
+    {
+        $this->mysql_pool = PoolManager::getInstance()->get('mysql_master');
+        $this->redis_pool = PoolManager::getInstance()->get('redis_master');
+    }
+
     /**
      * @param TestRequest $request
      * @return \app\processor\TestResponse
@@ -28,19 +38,18 @@ class HproseService implements HproseServiceIf
     public function test1(TestRequest $request)
     {
         $response = new TestResponse();
-        $mysql_pool = PoolManager::getInstance()->get('mysql_master');
-        $redis_pool = PoolManager::getInstance()->get('redis_master');
+
 
         try{
             // 协程Redis
-            $redis_result = yield $redis_pool->pop()->get('cache');
+            $redis_result = yield $this->redis_pool->pop()->get('cache');
             Globals::var_dump($redis_result);
 
             // 协程MySQL
             $sql_result = yield MySQLStatement::prepare()
                 ->select("Test",  "*")
                 ->limit(0,2)
-                ->query($mysql_pool->pop());
+                ->query($this->mysql_pool->pop());
             Globals::var_dump($sql_result);
 
             // 协程Async Task

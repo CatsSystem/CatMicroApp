@@ -18,11 +18,5 @@
         "classmap": [
             "app/processor"
         ]
-    },
-    "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "https://packagist.org"
-        }
     }
 }
