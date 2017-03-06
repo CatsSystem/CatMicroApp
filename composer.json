@@ -1,12 +1,13 @@
 {
     "name": "cat-sys/cat-micro-app",
-    "description": "Cat Micro Service Core",
+    "description": "Cat Micro Service Application",
     "authors": [
         {
             "name": "lidanyang",
             "email": "lancelot2014@foxmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
         "cat-sys/cat-micro":"dev-master"
     },

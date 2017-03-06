@@ -8,7 +8,6 @@
 
 use base\Entrance;
 
-require "../vendor/autoload.php";
 require "vendor/autoload.php";
 
 global $debug;

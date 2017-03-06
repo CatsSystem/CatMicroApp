@@ -8,7 +8,7 @@
 
 function usage()
 {
-    echo "php start.php start | restart | stop | reload [-d]\n";
+    echo "php run.php start | restart | stop | reload [-d]\n";
 }
 
 if( !isset($argv[1]) )
