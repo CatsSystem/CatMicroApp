@@ -9,6 +9,7 @@
 namespace app\callback;
 
 use base\common\Globals;
+use base\framework\cache\CacheLoader;
 use base\framework\pool\PoolManager;
 use base\server\BaseCallback;
 
@@ -35,6 +36,7 @@ class MainServer extends BaseCallback
     public function onWorkerStart($server, $workerId)
     {
         Globals::$open_task = true;
+        CacheLoader::getInstance()->init();
         PoolManager::getInstance()->init('mysql_master');
         PoolManager::getInstance()->init('redis_master');
     }
