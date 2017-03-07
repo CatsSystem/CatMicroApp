@@ -17,9 +17,8 @@ return [
         /**
          * MySQL 连接池
          */
-        [
+        'mysql_master' => [
             'type'  => 'mysql',                 // 连接池类型
-            'name'  => 'mysql_master',          // 连接池名称(唯一标识)
             'size'  => 5,                       // 连接池大小
 
             'args'  => [                        // 连接参数
@@ -34,9 +33,8 @@ return [
         /**
          * Redis 连接池
          */
-        [
+        'redis_master' => [
             'type'  => 'redis',                 // 连接池类型
-            'name'  => 'redis_master',          // 连接池名称(唯一标识)
             // 'size' => 1,                     // 默认为 1 连接, 无需设置
 
             'args'  => [

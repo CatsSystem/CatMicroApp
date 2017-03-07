@@ -26,7 +26,6 @@ return array(
     ],
 
     'server' => array(
-        'mode' => SWOOLE_PROCESS,
         'host' => '0.0.0.0',
         'port' => 9501,
     ),
