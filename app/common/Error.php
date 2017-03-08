@@ -13,7 +13,7 @@ namespace app\common;
  * Class Error
  * @package app\common
  */
-class Error extends \base\common\Error
+class Error extends \core\common\Error
 {
 
 }

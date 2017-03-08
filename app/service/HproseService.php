@@ -5,12 +5,12 @@ namespace app\service;
 use app\processor\HproseServiceIf;
 use app\processor\TestRequest;
 use app\processor\TestResponse;
-use base\common\Globals;
-use base\framework\client\AsyncTask;
-use base\framework\client\Http;
-use base\framework\log\Log;
-use base\framework\pool\PoolManager;
-use base\model\MySQLStatement;
+use core\common\Globals;
+use core\framework\client\Http;
+use core\framework\log\Log;
+use core\framework\pool\PoolManager;
+use core\framework\task\AsyncTask;
+use core\model\MySQLStatement;
 
 /**
  * Created by PhpStorm.

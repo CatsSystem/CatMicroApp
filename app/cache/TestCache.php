@@ -9,8 +9,8 @@
 namespace app\cache;
 
 use app\common\Constants;
-use base\concurrent\Promise;
-use base\framework\cache\ILoader;
+use core\concurrent\Promise;
+use core\framework\cache\ILoader;
 
 class TestCache extends ILoader
 {

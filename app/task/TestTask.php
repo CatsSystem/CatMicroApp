@@ -8,25 +8,31 @@
 
 namespace app\task;
 
-use base\common\Globals;
-use base\framework\pool\PoolManager;
-use base\framework\task\IRunner;
-use base\model\MySQLStatement;
+use core\common\Globals;
+use core\framework\pool\PoolManager;
+use core\framework\task\IRunner;
+use core\model\MySQLStatement;
 
 class TestTask extends IRunner
 {
+
+    private $mysql_pool;
+
+    public function __construct()
+    {
+        $this->mysql_pool = PoolManager::getInstance()->get('mysql_master');
+    }
+
     public function test_task($id, $name, $arr)
     {
         Globals::var_dump($id);
         Globals::var_dump($name);
         Globals::var_dump($arr);
 
-        $mysql_pool = PoolManager::getInstance()->get('mysql_master');
         $sql_result = MySQLStatement::prepare()
             ->select("Test",  "*")
             ->limit(0,2)
-            ->query($mysql_pool->pop());
-
+            ->query($this->mysql_pool->pop());
         return $sql_result;
     }
 }

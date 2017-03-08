@@ -13,7 +13,7 @@ namespace app\common;
  * Class Constants
  * @package app\common
  */
-class Constants extends \base\common\Constants
+class Constants extends \core\common\Constants
 {
     const CACHE_TEST            = 1;
 

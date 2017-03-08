@@ -8,10 +8,12 @@
 
 namespace app\callback;
 
-use base\common\Globals;
-use base\framework\cache\CacheLoader;
-use base\framework\pool\PoolManager;
+use base\Entrance;
 use base\server\BaseCallback;
+use core\common\Globals;
+use core\framework\cache\CacheLoader;
+use core\framework\config\Config;
+use core\framework\pool\PoolManager;
 
 class MainServer extends BaseCallback
 {
@@ -25,6 +27,13 @@ class MainServer extends BaseCallback
         $this->open_cache_process(function(){
             PoolManager::getInstance()->init('mysql_master');
             PoolManager::getInstance()->init('redis_master');
+
+            $cache_config = Config::getField('component', 'cache');
+            return [
+                'path' => Entrance::$rootPath . $cache_config['cache_path'],
+                'tick' => $cache_config['cache_tick'],
+                'name' => Config::getField('project', 'project_name') . 'cache process',
+            ];
         });
     }
 
@@ -35,8 +44,15 @@ class MainServer extends BaseCallback
      */
     public function onWorkerStart($server, $workerId)
     {
+        // 打开异步task功能
         Globals::$open_task = true;
-        CacheLoader::getInstance()->init();
+
+        // 打开内存缓存功能
+        Globals::$open_cache = true;
+        $cache_config = Config::getField('component', 'cache');
+        CacheLoader::getInstance()->init(Entrance::$rootPath . $cache_config['cache_path']);
+
+        // 初始化连接池
         PoolManager::getInstance()->init('mysql_master');
         PoolManager::getInstance()->init('redis_master');
     }
