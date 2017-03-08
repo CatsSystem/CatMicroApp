@@ -8,7 +8,7 @@
 
 function usage()
 {
-    echo "php run.php start | restart | stop | reload [-d]\n";
+    echo "php run.php start | restart | stop | reload [-c config_path]\n";
 }
 
 if( !isset($argv[1]) )
@@ -19,7 +19,15 @@ if( !isset($argv[1]) )
 
 $cmd = $argv[1];
 
-$debug = ( isset($argv[2]) &&  $argv[2] == '-d' )? 'release' : 'debug';
+if( isset($argv[2]) &&  $argv[2] == '-c' ) {
+    $debug = $argv[3];
+} else {
+    $debug = "debug";
+}
+
+$config = include "config/{$debug}/config.php";
+$pid_path = $config['project']['pid_path'] . '/' . $config['project']['project_name'] . '_master.pid';
+$manager_pid_path = $config['project']['pid_path'] . '/' . $config['project']['project_name'] . '_manager.pid';
 
 switch($cmd)
 {
@@ -30,30 +38,23 @@ switch($cmd)
     }
     case 'restart':
     {
-        $config = include "config/{$debug}/config.php";
-        $pid_path = $config['project']['pid_path'] . '/' . $config['project_name'] . '_master.pid';
-        $manager_pid_path = $config['project']['pid_path'] . '/' . $config['project_name'] . '_manager.pid';
+
         shell_exec("kill -15 `cat {$manager_pid_path}`");
         shell_exec("kill -15 `cat {$pid_path}`");
+        echo "restarting...";
         sleep(3);
         require_once 'main.php';
         break;
     }
     case 'stop':
     {
-        $config = include "config/{$debug}/config.php";
-        $pid_path = $config['project']['pid_path'] . '/' . $config['project_name'] . '_master.pid';
-        $manager_pid_path = $config['project']['pid_path'] . '/' . $config['project_name'] . '_manager.pid';
         shell_exec("kill -15 `cat {$manager_pid_path}`");
         shell_exec("kill -15 `cat {$pid_path}`");
         break;
     }
     case 'reload':
     {
-        $config = include "config/{$debug}/config.php";
-        $pid_path = $config['project']['pid_path'] . '/' . $config['project_name'] . '_master.pid';
-        $manager_pid_path = $config['project']['pid_path'] . '/' . $config['project_name'] . '_manager.pid';
-        shell_exec("kill -15 `cat {$manager_pid_path}`");
+        shell_exec("kill -USR1 `cat {$manager_pid_path}`");
         shell_exec("kill -USR1 `cat {$pid_path}`");
         break;
     }
