@@ -9,8 +9,8 @@
 namespace app\task;
 
 use core\common\Globals;
-use core\framework\pool\PoolManager;
-use core\framework\task\IRunner;
+use core\component\pool\PoolManager;
+use core\component\task\IRunner;
 use core\model\MySQLStatement;
 
 class TestTask extends IRunner

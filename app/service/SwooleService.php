@@ -6,10 +6,10 @@ use app\processor\SwooleServiceIf;
 use app\processor\TestRequest;
 use app\processor\TestResponse;
 use core\common\Globals;
-use core\framework\client\Http;
-use core\framework\log\Log;
-use core\framework\pool\PoolManager;
-use core\framework\task\AsyncTask;
+use core\component\client\Http;
+use core\component\log\Log;
+use core\component\pool\PoolManager;
+use core\component\task\AsyncTask;
 use core\model\MySQLStatement;
 
 

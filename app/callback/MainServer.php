@@ -11,9 +11,9 @@ namespace app\callback;
 use base\Entrance;
 use base\server\BaseCallback;
 use core\common\Globals;
-use core\framework\cache\CacheLoader;
-use core\framework\config\Config;
-use core\framework\pool\PoolManager;
+use core\component\cache\CacheLoader;
+use core\component\config\Config;
+use core\component\pool\PoolManager;
 
 class MainServer extends BaseCallback
 {
@@ -25,15 +25,16 @@ class MainServer extends BaseCallback
     {
         // 打开内存Cache进程
         $this->open_cache_process(function(){
+            Globals::setProcessName(Config::getField('project', 'project_name') . 'cache process');
+            $cache_config = Config::getField('component', 'cache');
+
             PoolManager::getInstance()->init('mysql_master');
             PoolManager::getInstance()->init('redis_master');
 
-            $cache_config = Config::getField('component', 'cache');
-            return [
-                'path' => Entrance::$rootPath . $cache_config['cache_path'],
-                'tick' => $cache_config['cache_tick'],
-                'name' => Config::getField('project', 'project_name') . 'cache process',
-            ];
+            CacheLoader::getInstance()->init(Entrance::$rootPath . $cache_config['cache_path'],
+                $cache_config['cache_path']);
+
+            return $cache_config['cache_tick'];
         });
     }
 
@@ -50,7 +51,7 @@ class MainServer extends BaseCallback
         // 打开内存缓存功能
         Globals::$open_cache = true;
         $cache_config = Config::getField('component', 'cache');
-        CacheLoader::getInstance()->init(Entrance::$rootPath . $cache_config['cache_path']);
+        CacheLoader::getInstance()->init(Entrance::$rootPath . $cache_config['cache_path'], $cache_config['cache_path']);
 
         // 初始化连接池
         PoolManager::getInstance()->init('mysql_master');
