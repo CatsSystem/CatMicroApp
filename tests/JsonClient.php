@@ -20,7 +20,6 @@ $req = new TestRequest([
 $args = new SwooleService_test1_args();
 $args->request = $req;
 
-$vars =
 $message = [
     'method' => 'test1',
     'data' => get_object_vars($args)

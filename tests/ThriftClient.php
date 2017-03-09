@@ -11,8 +11,6 @@ require_once "../vendor/autoload.php";
 use app\processor\ThriftServiceClient;
 use app\processor\TestRequest;
 
-$user_ids = range(10000, 20000);
-
 $socket = new \Thrift\Transport\TSocket("127.0.0.1", 9503);
 $transport = new \Thrift\Transport\TFramedTransport($socket);
 $protocol = new \Thrift\Protocol\TBinaryProtocol($transport);

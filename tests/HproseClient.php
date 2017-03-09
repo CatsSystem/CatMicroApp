@@ -11,14 +11,12 @@ require_once '../vendor/autoload.php';
 use app\processor\TestRequest;
 
 $client = new \Hprose\Socket\Client('tcp://127.0.0.1:9502', false);
-var_dump("test");
 $req = new TestRequest([
         'id' => 1,
         'name' => "test",
         'lists' => [1,2,3]
     ]
 );
-var_dump($req);
 $response = $client->test1($req);
 
 var_dump($response);
