@@ -9,6 +9,7 @@
 namespace app\cache;
 
 use app\common\Constants;
+use app\common\Error;
 use core\concurrent\Promise;
 use core\component\cache\ILoader;
 
@@ -32,7 +33,8 @@ class TestCache extends ILoader
         
         // 加载结果用Promise对象返回
         $promise->resolve([
-            'data' => [1,2,3]
+            'code'  => Error::SUCCESS,
+            'data'  => "Hello World"
         ]);
     }
 
