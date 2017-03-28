@@ -21,16 +21,20 @@ class MainServer extends BaseCallback
      * 服务启动前执行该回调, 用于添加额外监听端口, 添加额外Process
      * @return mixed
      */
-    public function before_start()
+    public function beforeStart()
     {
         // 打开内存Cache进程
-        $this->open_cache_process(function(){
+        $this->openCacheProcess(function(){
             Globals::setProcessName(Config::getField('project', 'project_name') . 'cache process');
-            $cache_config = Config::getField('component', 'cache');
+            // 设置全局Server变量
+            Globals::$server = \base\server\MainServer::getInstance()->getServer();
 
+            // 初始化连接池
             PoolManager::getInstance()->init('mysql_master');
             PoolManager::getInstance()->init('redis_master');
 
+            // 初始化缓存Cache
+            $cache_config = Config::getField('component', 'cache');
             CacheLoader::getInstance()->init(Entrance::$rootPath . $cache_config['cache_path'],
                 $cache_config['cache_path']);
 
@@ -45,17 +49,19 @@ class MainServer extends BaseCallback
      */
     public function onWorkerStart($server, $workerId)
     {
-        // 打开异步task功能
-        Globals::$open_task = true;
-
-        // 打开内存缓存功能
-        Globals::$open_cache = true;
-        $cache_config = Config::getField('component', 'cache');
-        CacheLoader::getInstance()->init(Entrance::$rootPath . $cache_config['cache_path'], $cache_config['cache_path']);
+        // 加载配置
+        Config::load(Entrance::$configPath);
 
         // 初始化连接池
         PoolManager::getInstance()->init('mysql_master');
         PoolManager::getInstance()->init('redis_master');
+
+        /**
+         * 初始化内存缓存
+         */
+        $cache_config = Config::getField('component', 'cache');
+        CacheLoader::getInstance()->init(Entrance::$rootPath . $cache_config['cache_path'],
+            $cache_config['cache_path']);
     }
 
     /**
